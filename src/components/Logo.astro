@@ -1,0 +1,23 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  light?: boolean;
+  compact?: boolean;
+}
+
+const { light = false, compact = false } = Astro.props;
+---
+
+<a class:list={['logo', { 'logo--light': light, 'logo--compact': compact }]} href="#inicio" aria-label={`${site.name} — inicio`}>
+  <span class="logo__mark" aria-hidden="true">
+    <svg viewBox="0 0 48 48" fill="none">
+      <rect width="48" height="48" rx="14" fill="currentColor" />
+      <path d="M24 12v24M12 24h24" stroke="var(--logo-cross, #fbfaf5)" stroke-width="7" stroke-linecap="round" />
+    </svg>
+  </span>
+  <span class="logo__text">
+    <span class="logo__eyebrow">Farmacia</span>
+    <span class="logo__name">{site.shortName}</span>
+  </span>
+</a>

@@ -1,0 +1,90 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow hero__eyebrow">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        Farmacia de barrio en Huesca · desde 1998
+      </p>
+
+      <h1 class="hero__title" id="hero-title">
+        <span class="hero__title-kicker">Farmacia</span>
+        <span class="hero__title-name">Bielsa</span>
+        <span class="hero__title-name hero__title-name--accent"><em>Gutiérrez</em></span>
+      </h1>
+
+      <p class="hero__lead">
+        Medicinas, encargos, osteopatía y fisioterapia. Cuidamos de ti y de
+        los tuyos, a un paseo de casa.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="#contacto">
+          Haz tu encargo
+          <Icon name="arrow-right" size={19} />
+        </a>
+        <a
+          class="btn btn--ghost btn--lg"
+          href={site.mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon name="map-pin" size={18} />
+          Cómo llegar
+        </a>
+      </div>
+
+      <ul class="hero__trust" aria-label="Motivos para elegirnos">
+        <li><Icon name="check" size={16} /> Encargos en el día</li>
+        <li><Icon name="check" size={16} /> Atención sin prisas</li>
+        <li><Icon name="check" size={16} /> Cita en 48 h</li>
+      </ul>
+    </div>
+
+    <div class="hero__media">
+      <figure class="hero__photo">
+        <img
+          src={`${base}images/hero-farmacia.webp`}
+          width="1000"
+          height="800"
+          alt="Farmacéutica sonriente cogiendo una caja de medicamentos de una estantería"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </figure>
+
+      <figure class="hero__detail">
+        <img
+          src={`${base}images/detalle-farmacia.webp`}
+          width="560"
+          height="560"
+          alt="Estetoscopio y medicamentos sobre fondo claro"
+          decoding="async"
+        />
+      </figure>
+
+      <div class="open-card" data-open-card>
+        <span class="open-card__dot" aria-hidden="true"></span>
+        <div>
+          <p class="open-card__status" data-open-status>Horario de hoy</p>
+          <p class="open-card__detail" data-open-detail>L–V · 9:00–20:30</p>
+        </div>
+      </div>
+
+      <div class="years-card">
+        <strong>+25</strong>
+        <span>años cuidando<br />del barrio</span>
+      </div>
+
+      <span class="hero__cross hero__cross--one" aria-hidden="true">✚</span>
+      <span class="hero__cross hero__cross--two" aria-hidden="true">✚</span>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import { services } from '../data/site';
+---
+
+<section class="section services" id="servicios" aria-labelledby="services-title">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-head__main">
+        <p class="eyebrow">Lo que hacemos por ti</p>
+        <h2 id="services-title">Todo lo que necesitas,<br />en un mismo sitio.</h2>
+      </div>
+      <p class="section-head__intro">
+        Sin recorrer media ciudad ni esperar semanas. Entra, pregunta y sal
+        con una solución. Y si no lo tenemos, te lo conseguimos.
+      </p>
+    </div>
+
+    <div class="services__grid">
+      {services.map((service, index) => (
+        <article
+          class="service-card reveal"
+          style={`--delay: ${index * 60}ms`}
+        >
+          <div class="service-card__top">
+            <span class="service-card__icon">
+              <Icon name={service.icon} size={24} />
+            </span>
+            <span class="service-card__num">{String(index + 1).padStart(2, '0')}</span>
+          </div>
+          <h3>{service.title}</h3>
+          <p>{service.description}</p>
+          <a class="text-link" href="#contacto">
+            Consúltanos
+            <Icon name="arrow-up-right" size={16} />
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

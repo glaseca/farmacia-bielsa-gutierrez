@@ -1,0 +1,65 @@
+---
+import Icon from './Icon.astro';
+import { site, specialties } from '../data/site';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="section specialty" id="especialidades" aria-labelledby="specialty-title">
+  <div class="specialty__pattern" aria-hidden="true"></div>
+  <div class="container specialty__grid">
+    <div class="specialty__media reveal">
+      <figure class="specialty__photo">
+        <img
+          src={`${base}images/osteopatia.webp`}
+          width="1000"
+          height="820"
+          alt="Fisioterapeuta tratando la espalda de una paciente en camilla"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+      <div class="specialty__badge">
+        <span class="specialty__badge-icon"><Icon name="calendar" size={20} /></span>
+        <div>
+          <strong>45 min</strong>
+          <span>Sesión personalizada</span>
+        </div>
+      </div>
+      <span class="specialty__seal" aria-hidden="true">✚</span>
+    </div>
+
+    <div class="specialty__content reveal" style="--delay: 80ms">
+      <p class="eyebrow eyebrow--light">Osteopatía y fisioterapia</p>
+      <h2 id="specialty-title">
+        Muévete sin ese dolor que llevas tiempo aguantando.
+      </h2>
+      <p class="specialty__lead">
+        Valoramos cómo te mueves, dónde duele y por qué. Después, un plan de
+        sesiones hecho a tu medida: sin prisas y sin listas de espera eternas.
+      </p>
+
+      <ul class="check-list">
+        {specialties.map((item) => (
+          <li>
+            <span class="check-list__icon"><Icon name="check" size={15} /></span>
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      <div class="specialty__actions">
+        <a class="btn btn--cream btn--lg" href="#contacto">
+          Pide tu cita
+          <Icon name="arrow-right" size={19} />
+        </a>
+        <a class="specialty__phone" href={`tel:${site.phoneHref}`}>
+          <Icon name="phone" size={17} />
+          {site.phoneDisplay}
+        </a>
+      </div>
+
+      <p class="specialty__note">Sesiones de 45 min · Espacio tranquilo · Trato cercano</p>
+    </div>
+  </div>
+</section>

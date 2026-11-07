@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+
+<nav class="mobile-bar" data-mobile-bar aria-label="Acciones rápidas">
+  <a class="mobile-bar__btn mobile-bar__btn--primary" href={`tel:${site.phoneHref}`}>
+    <Icon name="phone" size={19} />
+    <span>Llamar</span>
+  </a>
+  <a
+    class="mobile-bar__btn"
+    href={site.mapsUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Icon name="map-pin" size={19} />
+    <span>Cómo llegar</span>
+  </a>
+</nav>

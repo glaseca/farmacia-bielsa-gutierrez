@@ -1,0 +1,68 @@
+---
+import Icon from './Icon.astro';
+import { stats } from '../data/site';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="section about" id="farmacia" aria-labelledby="about-title">
+  <div class="container about__grid">
+    <div class="about__content reveal">
+      <p class="eyebrow">La farmacia de siempre</p>
+      <h2 id="about-title">
+        Cerca de casa.<br />
+        Y mucho más cerca de&nbsp;ti.
+      </h2>
+      <p class="about__lead">
+        Desde 1998, en el mismo barrio y con las mismas caras. Conocemos tu
+        nombre, tu medicación y esas prisas de última hora.
+      </p>
+      <p class="about__text">
+        Por eso hemos sumado servicios que te ahorran viajes: encargos, receta
+        electrónica, osteopatía, fisioterapia y un consejo que no se acaba en
+        el mostrador.
+      </p>
+
+      <div class="about__stats" aria-label="La farmacia en cifras">
+        {stats.map((stat) => (
+          <div class="stat">
+            <span class="stat__value">
+              {stat.value}
+              {stat.icon && <Icon name={stat.icon} size={18} />}
+            </span>
+            <span class="stat__label">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="about__chips">
+        <span class="chip"><Icon name="shield" size={15} /> Equipo colegiado</span>
+        <span class="chip"><Icon name="pill" size={15} /> Receta electrónica</span>
+        <span class="chip"><Icon name="bag" size={15} /> Encargos en el día</span>
+      </div>
+    </div>
+
+    <aside class="quote-card reveal" style="--delay: 100ms">
+      <span class="quote-card__mark" aria-hidden="true">“</span>
+      <blockquote>
+        <p>Aquí no eres un ticket. Eres de casa.</p>
+      </blockquote>
+      <div class="quote-card__author">
+        <img
+          src={`${base}images/maria-bielsa.webp`}
+          width="240"
+          height="240"
+          alt="Retrato de María Bielsa, farmacéutica titular"
+          loading="lazy"
+          decoding="async"
+        />
+        <div>
+          <strong>María Bielsa</strong>
+          <span>Farmacéutica titular</span>
+        </div>
+      </div>
+      <span class="quote-card__cross" aria-hidden="true">✚</span>
+      <span class="quote-card__leaf" aria-hidden="true"><Icon name="leaf" size={28} /></span>
+    </aside>
+  </div>
+</section>

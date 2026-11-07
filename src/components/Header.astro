@@ -1,0 +1,68 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <Logo />
+
+    <nav class="site-nav" id="menu-principal" data-nav aria-label="Navegación principal">
+      <ul class="site-nav__list">
+        {site.nav.map((item) => (
+          <li>
+            <a class="site-nav__link" href={item.href}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+      <div class="site-nav__mobile-actions">
+        <a class="btn btn--primary btn--block" href={`tel:${site.phoneHref}`}>
+          <Icon name="phone" size={18} /> Llamar a la farmacia
+        </a>
+        <a
+          class="btn btn--ghost btn--block"
+          href={site.instagram.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon name="instagram" size={18} /> Seguir en Instagram
+        </a>
+      </div>
+    </nav>
+
+    <div class="site-header__actions">
+      <a
+        class="icon-btn icon-btn--instagram"
+        href={site.instagram.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Instagram de ${site.name}`}
+      >
+        <Icon name="instagram" size={20} />
+      </a>
+      <a class="btn btn--phone" href={`tel:${site.phoneHref}`}>
+        <Icon name="phone" size={17} />
+        <span>{site.phoneDisplay}</span>
+      </a>
+      <a
+        class="icon-btn icon-btn--phone-mobile"
+        href={`tel:${site.phoneHref}`}
+        aria-label={`Llamar a ${site.name}`}
+      >
+        <Icon name="phone" size={20} />
+      </a>
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="menu-principal"
+        data-nav-toggle
+      >
+        <span class="sr-only" data-nav-toggle-label>Abrir menú</span>
+        <Icon name="menu" size={24} class="nav-toggle__icon-open" />
+        <Icon name="close" size={24} class="nav-toggle__icon-close" />
+      </button>
+    </div>
+  </div>
+</header>

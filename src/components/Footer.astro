@@ -1,0 +1,86 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="site-footer__pattern" aria-hidden="true"></div>
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <Logo light />
+        <p class="site-footer__tagline">
+          {site.tagline} Medicinas, consejo y cuidados para toda la familia.
+        </p>
+        <a
+          class="site-footer__instagram"
+          href={site.instagram.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon name="instagram" size={19} />
+          <span>{site.instagram.handle}</span>
+        </a>
+      </div>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__title">Visítanos</h2>
+        <address>
+          {site.address.street}<br />
+          {site.address.city}<br />
+          <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a><br />
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </address>
+        <a
+          class="site-footer__link"
+          href={site.mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Cómo llegar <Icon name="arrow-up-right" size={14} />
+        </a>
+      </div>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__title">Horario</h2>
+        <dl class="footer-hours">
+          {site.hours.map((item) => (
+            <div>
+              <dt>{item.days}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="site-footer__small">Festivos y guardias en Instagram.</p>
+      </div>
+
+      <div class="site-footer__col site-footer__col--cta">
+        <h2 class="site-footer__title">¿Un encargo?</h2>
+        <p class="site-footer__small">
+          Llámanos o escríbenos y te lo preparamos.
+        </p>
+        <a class="btn btn--cream" href="#contacto">
+          Contactar
+          <Icon name="arrow-right" size={17} />
+        </a>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {year} {site.name} · Demo con datos ficticios.</p>
+      <p class="site-footer__credits">
+        Fotografías de <a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer">Unsplash</a>
+        <span aria-hidden="true">·</span>
+        Mapa de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>
+        <span aria-hidden="true">·</span>
+        Hecho con cariño en Huesca
+      </p>
+      <a class="site-footer__top" href="#inicio">
+        Volver arriba <Icon name="arrow-up-right" size={14} />
+      </a>
+    </div>
+  </div>
+</footer>

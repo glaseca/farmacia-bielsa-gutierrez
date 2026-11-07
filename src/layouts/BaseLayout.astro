@@ -1,0 +1,309 @@
+---
+import '@fontsource-variable/fraunces/wght.css';
+import '@fontsource-variable/fraunces/wght-italic.css';
+import '@fontsource-variable/manrope/wght.css';
+import '../styles/global.css';
+
+import Disclaimer from '../components/Disclaimer.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${site.name} | Tu farmacia de barrio en Huesca`,
+  description = site.description,
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+const ogImage = new URL(`${base}images/og-farmacia.jpg`, canonical).href;
+const heroImage = `${base}images/hero-farmacia.webp`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Pharmacy',
+  name: site.name,
+  description,
+  url: canonical.href,
+  telephone: site.phoneHref,
+  email: site.email,
+  image: ogImage,
+  priceRange: '€',
+  sameAs: [site.instagram.url],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: 'Huesca',
+    postalCode: '22004',
+    addressRegion: 'Aragón',
+    addressCountry: 'ES',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '13:30',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '16:30',
+      closes: '20:30',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Saturday',
+      opens: '09:30',
+      closes: '13:30',
+    },
+  ],
+  disambiguatingDescription:
+    'Sitio de demostración con datos ficticios. No corresponde a una farmacia real.',
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+
+    <!-- Demo: evita que los buscadores tomen los datos ficticios como reales. -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <meta name="theme-color" content="#0f4d3a" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Farmacéutica preparando un encargo en la farmacia" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preload" as="image" href={heroImage} type="image/webp" fetchpriority="high" />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <Disclaimer />
+    <Header />
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <Footer />
+    <MobileBar />
+
+    <script>
+      // Header con sombra al hacer scroll y barra móvil
+      const header = document.querySelector<HTMLElement>('[data-header]');
+      const mobileBar = document.querySelector<HTMLElement>('[data-mobile-bar]');
+      const updateHeader = () => {
+        header?.classList.toggle('is-scrolled', window.scrollY > 10);
+        mobileBar?.classList.toggle('is-visible', window.scrollY > 420);
+      };
+      updateHeader();
+      window.addEventListener('scroll', updateHeader, { passive: true });
+
+      // Menú móvil
+      const navToggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+      const nav = document.querySelector<HTMLElement>('[data-nav]');
+      const navToggleLabel = document.querySelector<HTMLElement>('[data-nav-toggle-label]');
+      const desktopQuery = window.matchMedia('(min-width: 901px)');
+
+      const setMenu = (open: boolean) => {
+        if (!navToggle || !nav) return;
+        navToggle.setAttribute('aria-expanded', String(open));
+        nav.classList.toggle('is-open', open);
+        document.body.classList.toggle('nav-open', open);
+        if (navToggleLabel) {
+          navToggleLabel.textContent = open ? 'Cerrar menú' : 'Abrir menú';
+        }
+      };
+
+      navToggle?.addEventListener('click', () => {
+        setMenu(navToggle.getAttribute('aria-expanded') !== 'true');
+      });
+
+      nav?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setMenu(false);
+      });
+
+      desktopQuery.addEventListener('change', (event) => {
+        if (event.matches) setMenu(false);
+      });
+
+      // Animaciones de entrada
+      const revealItems = document.querySelectorAll<HTMLElement>('.reveal');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!reduceMotion && 'IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('is-visible');
+              revealObserver.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -40px' }
+        );
+        revealItems.forEach((item) => revealObserver.observe(item));
+      } else {
+        revealItems.forEach((item) => item.classList.add('is-visible'));
+      }
+
+      // Estado abierto / cerrado (hora de Madrid)
+      const openCard = document.querySelector<HTMLElement>('[data-open-card]');
+      const openStatus = document.querySelector<HTMLElement>('[data-open-status]');
+      const openDetail = document.querySelector<HTMLElement>('[data-open-detail]');
+
+      // Minutos desde medianoche: [apertura, cierre]
+      const schedule: Record<number, Array<[number, number]>> = {
+        0: [],
+        1: [[540, 810], [990, 1230]],
+        2: [[540, 810], [990, 1230]],
+        3: [[540, 810], [990, 1230]],
+        4: [[540, 810], [990, 1230]],
+        5: [[540, 810], [990, 1230]],
+        6: [[570, 810]],
+      };
+      const dayIndex: Record<string, number> = {
+        Sun: 0,
+        Mon: 1,
+        Tue: 2,
+        Wed: 3,
+        Thu: 4,
+        Fri: 5,
+        Sat: 6,
+      };
+      const dayNames = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+      const formatTime = (minutes: number) =>
+        `${Math.floor(minutes / 60)}:${String(minutes % 60).padStart(2, '0')}`;
+
+      const updateOpenStatus = () => {
+        if (!openCard || !openStatus || !openDetail) return;
+
+        const parts = new Intl.DateTimeFormat('en-GB', {
+          timeZone: 'Europe/Madrid',
+          weekday: 'short',
+          hour: '2-digit',
+          minute: '2-digit',
+          hourCycle: 'h23',
+        }).formatToParts(new Date());
+
+        const get = (type: string) => parts.find((part) => part.type === type)?.value ?? '';
+        const today = dayIndex[get('weekday')] ?? new Date().getDay();
+        const minutes = Number(get('hour')) * 60 + Number(get('minute'));
+        const windows = schedule[today] ?? [];
+        const current = windows.find(([start, end]) => minutes >= start && minutes < end);
+
+        if (current) {
+          openStatus.textContent = 'Abierto ahora';
+          openDetail.textContent = `Hasta las ${formatTime(current[1])}`;
+          openCard.classList.add('is-open');
+          openCard.classList.remove('is-closed');
+          return;
+        }
+
+        let next: { offset: number; day: number; start: number } | null = null;
+
+        for (let offset = 0; offset <= 7 && !next; offset += 1) {
+          const day = (today + offset) % 7;
+          const dayWindows = schedule[day] ?? [];
+          const candidate = dayWindows.find(([start]) => offset > 0 || start > minutes);
+          if (candidate) next = { offset, day, start: candidate[0] };
+        }
+
+        openStatus.textContent = 'Cerrado ahora';
+        openCard.classList.add('is-closed');
+        openCard.classList.remove('is-open');
+
+        if (!next) {
+          openDetail.textContent = 'Consulta el horario';
+          return;
+        }
+
+        if (next.offset === 0) {
+          openDetail.textContent = `Abrimos a las ${formatTime(next.start)}`;
+        } else if (next.offset === 1) {
+          openDetail.textContent = `Abrimos mañana a las ${formatTime(next.start)}`;
+        } else {
+          openDetail.textContent = `Abrimos el ${dayNames[next.day]} a las ${formatTime(next.start)}`;
+        }
+      };
+
+      updateOpenStatus();
+      window.setInterval(updateOpenStatus, 60_000);
+
+      // Formulario: prepara un correo (GitHub Pages es estático)
+      const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+      const formStatus = document.querySelector<HTMLElement>('[data-form-status]');
+
+      form?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+
+        const data = new FormData(form);
+        const name = String(data.get('nombre') ?? '').trim();
+        const contact = String(data.get('contacto') ?? '').trim();
+        const reason = String(data.get('motivo') ?? '').trim();
+        const message = String(data.get('mensaje') ?? '').trim();
+        const email = form.dataset.email ?? '';
+
+        const subject = `Web · ${reason} — ${name}`;
+        const body = [
+          `Nombre: ${name}`,
+          `Contacto: ${contact}`,
+          `Motivo: ${reason}`,
+          '',
+          message,
+        ].join('\n');
+
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(
+          subject
+        )}&body=${encodeURIComponent(body)}`;
+
+        if (formStatus) {
+          formStatus.hidden = false;
+          formStatus.textContent =
+            'Listo. Hemos preparado el mensaje en tu aplicación de correo.';
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+---
+const keywords = [
+  'Medicinas',
+  'Encargos',
+  'Osteopatía',
+  'Fisioterapia',
+  'Infantil',
+  'Parafarmacia',
+  'Dermofarmacia',
+  'Receta electrónica',
+];
+---
+
+<div class="keyword-strip" aria-hidden="true">
+  <div class="keyword-strip__track">
+    {[0, 1].map((copy) => (
+      <div class="keyword-strip__group">
+        {keywords.map((word) => (
+          <span class="keyword-strip__item">
+            <span class="keyword-strip__cross">✚</span>
+            {word}
+          </span>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>

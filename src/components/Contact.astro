@@ -1,0 +1,128 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+
+<section class="section contact" id="contacto" aria-labelledby="contact-title">
+  <div class="container contact__grid">
+    <div class="contact__content reveal">
+      <p class="eyebrow">Hablemos</p>
+      <h2 id="contact-title">¿Te preparo<br />el encargo?</h2>
+      <p class="contact__lead">
+        Escríbenos y te contestamos en horario de farmacia. Si es urgente,
+        llámanos: es lo más rápido.
+      </p>
+
+      <div class="contact__methods">
+        <a class="contact-method" href={`tel:${site.phoneHref}`}>
+          <span class="contact-method__icon"><Icon name="phone" size={22} /></span>
+          <span>
+            <span class="contact-method__label">Llámanos</span>
+            <strong>{site.phoneDisplay}</strong>
+          </span>
+          <Icon name="arrow-up-right" size={18} class="contact-method__arrow" />
+        </a>
+        <a class="contact-method" href={`mailto:${site.email}`}>
+          <span class="contact-method__icon"><Icon name="mail" size={22} /></span>
+          <span>
+            <span class="contact-method__label">Escríbenos</span>
+            <strong>{site.email}</strong>
+          </span>
+          <Icon name="arrow-up-right" size={18} class="contact-method__arrow" />
+        </a>
+      </div>
+
+      <a
+        class="instagram-card"
+        href={site.instagram.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="instagram-card__icon"><Icon name="instagram" size={26} /></span>
+        <span class="instagram-card__text">
+          <span class="instagram-card__label">Síguenos</span>
+          <strong>{site.instagram.handle}</strong>
+          <span class="instagram-card__desc">Consejos, novedades y encargos por DM.</span>
+        </span>
+        <span class="instagram-card__cta">
+          Instagram <Icon name="arrow-up-right" size={16} />
+        </span>
+      </a>
+    </div>
+
+    <div class="contact-form-wrap reveal" style="--delay: 100ms">
+      <form class="contact-form" data-contact-form data-email={site.email}>
+        <div class="contact-form__head">
+          <span class="contact-form__icon"><Icon name="heart" size={22} /></span>
+          <div>
+            <h3>Cuéntanos qué necesitas</h3>
+            <p>Te responderemos lo antes posible.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <label class="field">
+            <span class="field__label">Tu nombre</span>
+            <input
+              type="text"
+              name="nombre"
+              autocomplete="name"
+              placeholder="María López"
+              required
+            />
+          </label>
+          <label class="field">
+            <span class="field__label">Teléfono o email</span>
+            <input
+              type="text"
+              name="contacto"
+              autocomplete="tel"
+              placeholder="600 000 000"
+              required
+            />
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field__label">¿Qué necesitas?</span>
+          <select name="motivo" required>
+            <option value="" disabled selected>Elige una opción</option>
+            <option>Encargo o reserva</option>
+            <option>Cita de osteopatía</option>
+            <option>Cita de fisioterapia</option>
+            <option>Consejo farmacéutico</option>
+            <option>Otra consulta</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="field__label">Cuéntanos un poco más</span>
+          <textarea
+            name="mensaje"
+            rows="4"
+            placeholder="Por ejemplo: necesito un champú concreto, una cita esta semana…"
+          ></textarea>
+        </label>
+
+        <label class="check-field">
+          <input type="checkbox" name="privacidad" required />
+          <span>
+            Acepto que me contactéis por este medio. Es una demo: el formulario
+            no envía datos a ningún servidor.
+          </span>
+        </label>
+
+        <button class="btn btn--primary btn--lg btn--block" type="submit">
+          Preparar mi mensaje
+          <Icon name="arrow-right" size={19} />
+        </button>
+
+        <p class="form-note">
+          <Icon name="info" size={14} />
+          Al enviar, se abrirá tu aplicación de correo con el mensaje preparado.
+        </p>
+        <p class="form-status" data-form-status role="status" aria-live="polite" hidden></p>
+      </form>
+    </div>
+  </div>
+</section>

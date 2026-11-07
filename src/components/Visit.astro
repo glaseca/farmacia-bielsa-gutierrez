@@ -1,0 +1,115 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="section visit" id="visitanos" aria-labelledby="visit-title">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <div class="section-head__main">
+        <p class="eyebrow">Ven a vernos</p>
+        <h2 id="visit-title">Estamos donde siempre.</h2>
+      </div>
+      <p class="section-head__intro">
+        A dos minutos andando de la Plaza de Navarra. Entra sin cita: siempre
+        hay alguien para escucharte.
+      </p>
+    </div>
+
+    <div class="visit__grid">
+      <div class="visit__card reveal">
+        <div class="visit__block">
+          <span class="visit__icon"><Icon name="map-pin" size={22} /></span>
+          <div>
+            <p class="visit__label">Dirección</p>
+            <p class="visit__value">{site.address.street}<br />{site.address.city}</p>
+            <a
+              class="text-link"
+              href={site.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Cómo llegar <Icon name="arrow-up-right" size={15} />
+            </a>
+          </div>
+        </div>
+
+        <div class="visit__block">
+          <span class="visit__icon"><Icon name="phone" size={22} /></span>
+          <div>
+            <p class="visit__label">Teléfono</p>
+            <p class="visit__value">
+              <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>
+            </p>
+            <p class="visit__hint">Para encargos y citas</p>
+          </div>
+        </div>
+
+        <div class="visit__block">
+          <span class="visit__icon"><Icon name="mail" size={22} /></span>
+          <div>
+            <p class="visit__label">Email</p>
+            <p class="visit__value">
+              <a href={`mailto:${site.email}`}>{site.email}</a>
+            </p>
+            <p class="visit__hint">Respondemos en horario de farmacia</p>
+          </div>
+        </div>
+
+        <div class="visit__hours">
+          <div class="visit__hours-head">
+            <span class="visit__icon"><Icon name="clock" size={22} /></span>
+            <p class="visit__label">Horario</p>
+          </div>
+          <dl class="hours-list">
+            {site.hours.map((item) => (
+              <div class="hours-list__row">
+                <dt>{item.days}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <p class="visit__note">
+            <Icon name="info" size={15} />
+            Festivos y guardias: consulta nuestro Instagram.
+          </p>
+        </div>
+      </div>
+
+      <div class="visit__map reveal" style="--delay: 100ms">
+        <img
+          src={`${base}images/mapa-huesca.webp`}
+          width="1200"
+          height="900"
+          alt="Mapa del centro de Huesca con la ubicación aproximada de la farmacia"
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="visit__map-pin" aria-hidden="true"></span>
+        <div class="visit__map-label">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>{site.name}</span>
+        </div>
+        <a
+          class="visit__map-attribution"
+          href="https://www.openstreetmap.org/copyright"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          © OpenStreetMap contributors
+        </a>
+        <a
+          class="visit__map-link"
+          href={site.mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Abrir en Google Maps
+          <Icon name="arrow-up-right" size={15} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
