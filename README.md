@@ -87,3 +87,13 @@ La configuración detecta automáticamente el nombre del repositorio y ajusta la
 - Las imágenes se pueden sustituir manteniendo los mismos nombres en `public/images/` o actualizando las rutas en los componentes.
 - Recuerda sustituir el teléfono, email, dirección e Instagram de ejemplo por los datos reales antes de usar la web.
 - Fotografías de Unsplash, usadas bajo su licencia. Mapa: © colaboradores de OpenStreetMap.
+
+### Lockfile y dependencias opcionales
+
+El despliegue usa `npm ci` sobre Linux. El `package-lock.json` incluye las dependencias opcionales de Linux y WebAssembly, porque npm no siempre las resuelve igual desde Windows. Si actualizas dependencias, regenera el lockfile con:
+
+```bash
+npm install --package-lock-only --os=linux --cpu=x64 --libc=glibc
+```
+
+Así evitarás el error `Missing: @emnapi/... from lock file` en GitHub Actions.
